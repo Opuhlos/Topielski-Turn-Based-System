@@ -3,6 +3,9 @@ extends Control
 signal textbox_closed
 
 func _ready() -> void:
+	set_health($PlayerPanel/MarginContainer/PlayerData/PlayerHealthBar, 50, 50)
+	set_health($EnemyContainer/EnemyHealthBar, 50, 50)
+	
 	$ActionsPanel.hide()
 	$Textbox.hide()
 	
@@ -29,3 +32,10 @@ func _on_pressed_run_button() -> void:
 	display_text("You escaped!")
 	await textbox_closed
 	get_tree().quit()
+
+func set_health(progress_bar: ProgressBar, health: int, max_health: int) -> void:
+	progress_bar.max_value = max_health
+	progress_bar.value = health
+	
+	var label: Label = progress_bar.get_node("Label")
+	label.text = "HP %s/%s" % [health, max_health]
