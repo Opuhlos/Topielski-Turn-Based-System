@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dmbi722kcf5ra"]
+[gd_scene load_steps=10 format=3 uid="uid://dmbi722kcf5ra"]
 
 [ext_resource type="Texture2D" uid="uid://ni5b0u5b0aju" path="res://assets/battleback1.png" id="1_th188"]
 [ext_resource type="Texture2D" uid="uid://b0t24sgeqoo60" path="res://assets/09.png" id="2_p1qf1"]
@@ -24,6 +24,13 @@ border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f4pi3"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
 
 [node name="Battle" type="Control"]
 layout_mode = 3
@@ -136,6 +143,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ActionsPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -143,15 +151,23 @@ offset_bottom = 96.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lpir7")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ActionsPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="ActionsPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Button" type="Button" parent="ActionsPanel/HBoxContainer"]
+[node name="Actions" type="HBoxContainer" parent="ActionsPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ActionButton" type="Button" parent="ActionsPanel/MarginContainer/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -163,7 +179,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_6vh42")
 theme_override_styles/normal = SubResource("StyleBoxFlat_4k1nj")
 text = "ATTACK"
 
-[node name="Button2" type="Button" parent="ActionsPanel/HBoxContainer"]
+[node name="DefendButton" type="Button" parent="ActionsPanel/MarginContainer/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -175,7 +191,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_6vh42")
 theme_override_styles/normal = SubResource("StyleBoxFlat_4k1nj")
 text = "DEFEND"
 
-[node name="Button3" type="Button" parent="ActionsPanel/HBoxContainer"]
+[node name="RunButton" type="Button" parent="ActionsPanel/MarginContainer/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -186,3 +202,41 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_6vh42")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_6vh42")
 theme_override_styles/normal = SubResource("StyleBoxFlat_4k1nj")
 text = "RUN"
+
+[node name="Textbox" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 128.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="Panel" type="Panel" parent="Textbox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f4pi3")
+
+[node name="MarginContainer" type="MarginContainer" parent="Textbox/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Text" type="Label" parent="Textbox/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Text"
+
+[node name="Ticker" type="Label" parent="Textbox/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = ">"
