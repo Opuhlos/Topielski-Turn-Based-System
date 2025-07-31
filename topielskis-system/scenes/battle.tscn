@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dmbi722kcf5ra"]
+[gd_scene load_steps=11 format=3 uid="uid://dmbi722kcf5ra"]
 
+[ext_resource type="Script" uid="uid://bjjfpfdr570gj" path="res://scripts/battle.gd" id="1_p1qf1"]
 [ext_resource type="Texture2D" uid="uid://ni5b0u5b0aju" path="res://assets/battleback1.png" id="1_th188"]
 [ext_resource type="Texture2D" uid="uid://b0t24sgeqoo60" path="res://assets/09.png" id="2_p1qf1"]
 
@@ -41,6 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+script = ExtResource("1_p1qf1")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 0
@@ -143,7 +145,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ActionsPanel" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
