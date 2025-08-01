@@ -4,17 +4,27 @@ signal textbox_closed
 
 @export var enemy: BaseEnemy
 
+@onready var enemy_hp_bar: ProgressBar = $EnemyContainer/EnemyHealthBar
+
+var current_player_health: int
+var current_enemy_health: int
+
 func _ready() -> void:
-	set_health($PlayerPanel/MarginContainer/PlayerData/PlayerHealthBar, 50, 50)
+	set_health($PlayerPanel/MarginContainer/PlayerData/PlayerHealthBar, State.max_health, State.max_health)
+	current_player_health = State.max_health
 	
 	set_health($EnemyContainer/EnemyHealthBar, enemy.health, enemy.health)
 	$EnemyContainer/Enemy.texture = enemy.texture
+	current_enemy_health = enemy.health
 	
 	$ActionsPanel.hide()
 	$Textbox.hide()
 	
-	# Connect the run button pressed signal to code here that handles its functionality
+	# Connect the run button pressed signal
 	$ActionsPanel/MarginContainer/Actions/RunButton.pressed.connect(_on_pressed_run_button)
+	
+	# Connect the attack button pressed signal
+	$ActionsPanel/MarginContainer/Actions/ActionButton.pressed.connect(_on_pressed_attack_button)
 	
 	display_text("A %s blocks your path!" % [enemy.name])
 	# An alternative way that still functions
@@ -36,6 +46,17 @@ func _on_pressed_run_button() -> void:
 	display_text("You escaped!")
 	await textbox_closed
 	get_tree().quit()
+
+func _on_pressed_attack_button() -> void:
+	display_text("You attacked!")
+	await textbox_closed
+	
+	current_enemy_health = max(0, current_enemy_health - State.damage)
+	
+	display_text("%s took %s damage!" % [enemy.name, State.damage])
+	await textbox_closed
+	
+	set_health(enemy_hp_bar, current_enemy_health, enemy.health)
 
 func set_health(progress_bar: ProgressBar, health: int, max_health: int) -> void:
 	progress_bar.max_value = max_health
