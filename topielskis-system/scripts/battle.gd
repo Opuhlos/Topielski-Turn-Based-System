@@ -2,9 +2,13 @@ extends Control
 
 signal textbox_closed
 
+@export var enemy: BaseEnemy
+
 func _ready() -> void:
 	set_health($PlayerPanel/MarginContainer/PlayerData/PlayerHealthBar, 50, 50)
-	set_health($EnemyContainer/EnemyHealthBar, 50, 50)
+	
+	set_health($EnemyContainer/EnemyHealthBar, enemy.health, enemy.health)
+	$EnemyContainer/Enemy.texture = enemy.texture
 	
 	$ActionsPanel.hide()
 	$Textbox.hide()
@@ -12,7 +16,7 @@ func _ready() -> void:
 	# Connect the run button pressed signal to code here that handles its functionality
 	$ActionsPanel/MarginContainer/Actions/RunButton.pressed.connect(_on_pressed_run_button)
 	
-	display_text("A foe blocks your path!")
+	display_text("A %s blocks your path!" % [enemy.name])
 	# An alternative way that still functions
 	# await Signal(self, "textbox_closed" )
 	await textbox_closed 

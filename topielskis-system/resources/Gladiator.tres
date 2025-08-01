@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://sb3yex06e4nb"]
+
+[ext_resource type="Script" uid="uid://bqaav0smi0ttm" path="res://scripts/BaseEnemy.gd" id="1_44jta"]
+[ext_resource type="Texture2D" uid="uid://b0t24sgeqoo60" path="res://assets/09.png" id="2_y8pv4"]
+
+[resource]
+script = ExtResource("1_44jta")
+name = "Gladiator"
+texture = ExtResource("2_y8pv4")
+health = 150
+attack = 30
