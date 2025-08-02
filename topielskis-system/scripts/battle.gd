@@ -10,6 +10,8 @@ signal textbox_closed
 var current_player_health: int
 var current_enemy_health: int
 
+var is_defending: bool = false
+
 func _ready() -> void:
 	set_health(player_hp_bar, State.max_health, State.max_health)
 	current_player_health = State.max_health
@@ -26,6 +28,9 @@ func _ready() -> void:
 	
 	# Connect the attack button pressed signal
 	$ActionsPanel/MarginContainer/Actions/ActionButton.pressed.connect(_on_pressed_attack_button)
+	
+	# Connect the defend button pressed signal
+	$ActionsPanel/MarginContainer/Actions/DefendButton.pressed.connect(_on_pressed_defend_button)
 	
 	display_text("A %s blocks your path!" % [enemy.name])
 	# An alternative way that still functions
@@ -56,10 +61,15 @@ func enemy_turn() -> void:
 	display_text("The %s attacked you!" % [enemy.name])
 	await textbox_closed
 	
-	$AnimationPlayer.play("shake")
-	await $AnimationPlayer.animation_finished
+	if is_defending:
+		display_text("You blocked the attack!")
+		await textbox_closed
+		current_player_health = max(0, current_player_health - (enemy.attack * 0.1))
+	else:
+		current_player_health = max(0, current_player_health - enemy.attack)
+		$AnimationPlayer.play("shake")
+		await $AnimationPlayer.animation_finished
 	
-	current_player_health = max(0, current_player_health - enemy.attack)
 	set_health(player_hp_bar, current_player_health, State.max_health)
 
 func _on_pressed_run_button() -> void:
@@ -68,6 +78,7 @@ func _on_pressed_run_button() -> void:
 	get_tree().quit()
 
 func _on_pressed_attack_button() -> void:
+	is_defending = false
 	display_text("You attacked!")
 	await textbox_closed
 	
@@ -76,5 +87,13 @@ func _on_pressed_attack_button() -> void:
 	
 	current_enemy_health = max(0, current_enemy_health - State.damage)
 	set_health(enemy_hp_bar, current_enemy_health, enemy.health)
+	
+	enemy_turn()
+
+func _on_pressed_defend_button() -> void:
+	display_text("You braced yourself!")
+	await textbox_closed
+	
+	is_defending = true
 	
 	enemy_turn()
