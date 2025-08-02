@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dmbi722kcf5ra"]
+[gd_scene load_steps=17 format=3 uid="uid://dmbi722kcf5ra"]
 
 [ext_resource type="Script" uid="uid://bjjfpfdr570gj" path="res://scripts/Battle.gd" id="1_p1qf1"]
 [ext_resource type="Texture2D" uid="uid://ni5b0u5b0aju" path="res://assets/battleback1.png" id="1_th188"]
@@ -92,10 +92,27 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(8, 16), Vector2(8, -16), Vector2(-24, 8), Vector2(8, -16), Vector2(8, 32), Vector2(48, 16), Vector2(-32, -32), Vector2(16, 32), Vector2(16, -8), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_4k1nj"]
+resource_name = "enemy_die"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyContainer/Enemy:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.00857342, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6vh42"]
 _data = {
 &"RESET": SubResource("Animation_lpir7"),
 &"enemy_damaged": SubResource("Animation_a12nh"),
+&"enemy_die": SubResource("Animation_4k1nj"),
 &"shake": SubResource("Animation_6vh42")
 }
 

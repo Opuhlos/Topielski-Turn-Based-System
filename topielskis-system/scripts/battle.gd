@@ -56,7 +56,7 @@ func set_health(progress_bar: ProgressBar, health: int, max_health: int) -> void
 	label.text = "HP %s/%s" % [health, max_health]
 
 func enemy_turn() -> void:
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.5).timeout
 	
 	display_text("The %s attacked you!" % [enemy.name])
 	await textbox_closed
@@ -71,6 +71,14 @@ func enemy_turn() -> void:
 		await $AnimationPlayer.animation_finished
 	
 	set_health(player_hp_bar, current_player_health, State.max_health)
+	
+	if current_player_health ==  0:
+		display_text("You died!")
+		await textbox_closed
+		get_tree().quit()
+	
+	await get_tree().create_timer(0.5).timeout
+	$ActionsPanel.show()
 
 func _on_pressed_run_button() -> void:
 	display_text("You escaped!")
@@ -87,6 +95,16 @@ func _on_pressed_attack_button() -> void:
 	
 	current_enemy_health = max(0, current_enemy_health - State.damage)
 	set_health(enemy_hp_bar, current_enemy_health, enemy.health)
+	
+	if current_enemy_health == 0:
+		$AnimationPlayer.play("enemy_die")
+		await $AnimationPlayer.animation_finished
+		enemy_hp_bar.hide()
+		
+		display_text("You won!")
+		await textbox_closed
+		
+		get_tree().quit()
 	
 	enemy_turn()
 
